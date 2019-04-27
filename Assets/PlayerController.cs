@@ -5,6 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject tempIdleTentacle;
+    public GameObject tempSlideTentacle;
+
+
     [SerializeField] private float JumpForce = 400f;
     [SerializeField] private float WallKickForce = 400f;
     [SerializeField] private float WallSlideMult = 1.0f;
@@ -24,6 +28,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float WallKickRange = 0.25f;
     private bool WallSliding = false;
     [SerializeField] private bool KickableWall;
+    private float recentlyWallSlid = 0.0f;
+    private float timeBetweenWallParticle = 0.25f;
+    private float timeSinceLastWallParticle = 0.0f;
 
 
     private Rigidbody2D rb2d;
@@ -31,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 Velocity = Vector3.zero;
     public GameObject light; //keep this from flipping. 
     public float lightHeight = -0.5f;
+    public ParticleSystem jumpParticles;
 
 
     //jump logic
@@ -122,7 +130,17 @@ public class PlayerController : MonoBehaviour
             timeUntilNextJumpRequest = 0;
         }
 
+        recentlyWallSlid -= Time.deltaTime;
+        if (recentlyWallSlid <= 0)
+        {
+            recentlyWallSlid = 0;
+        }
 
+        timeSinceLastWallParticle -= Time.deltaTime;
+        if (timeSinceLastWallParticle <= 0)
+        {
+            timeSinceLastWallParticle = 0;
+        }
     }
 
 
@@ -159,6 +177,7 @@ public class PlayerController : MonoBehaviour
         {
             if(rb2d.velocity.y <= 0) //player must be stationary or descending
             {
+                bool prevWallSlide = WallSliding;
                 //if they are pressing towards the correct wall, slide down
                 if (move < 0 && !FacingRight)
                 {
@@ -171,6 +190,13 @@ public class PlayerController : MonoBehaviour
                     // ... slow down
                     WallSliding = true;
                 }
+                //did WallSliding Just Toggle?
+                if (prevWallSlide != WallSliding) //catch the wall for a moment
+                {
+                    rb2d.velocity = Vector2.zero;
+                }
+
+
             } else // ensure that gravity is set correctly because you are going up
             {
                 
@@ -193,10 +219,12 @@ public class PlayerController : MonoBehaviour
 
                 Grounded = false;
                 rb2d.AddForce(new Vector2(0f, JumpForce));
-            } else if (IsWallKickable()){
+                ParticleSystem dustInstance = Instantiate(jumpParticles, GroundCheck);
+            } else if (IsWallKickable() && recentlyWallSlid>0){
                 WallSliding = false;
                 rb2d.AddForce(new Vector2(move*WallKickForce, WallSlideMult*JumpForce));
                 Debug.Log("Move: " + move.ToString() + " Force: " + (move * WallKickForce).ToString());
+                ParticleSystem dustInstance = Instantiate(jumpParticles, WallKickCheck);
             }
             
             
@@ -221,10 +249,14 @@ public class PlayerController : MonoBehaviour
         if (sliding)
         {
             rb2d.gravityScale = GravityScaleSlow; //grabbing the wall
+            recentlyWallSlid = timeBetweenJumps;
+            SpawnWallSlideParticles();
+            
         } else
         {
             rb2d.gravityScale = GravityScaleNormal; //not grabbing anything
         }
+        TentacleSwapTemp(sliding);
     }
 
     private bool checkJumpLogic(bool jump)
@@ -321,6 +353,22 @@ public class PlayerController : MonoBehaviour
 
 
         return wallKickoff;
+
+    }
+
+    private void SpawnWallSlideParticles()
+    {
+        if(timeSinceLastWallParticle <= 0)
+        {
+            Instantiate(jumpParticles, GrabWallCheck);
+            timeSinceLastWallParticle = timeBetweenWallParticle;
+        }
+    }
+
+    private void TentacleSwapTemp(bool sliding)
+    {
+        tempSlideTentacle.SetActive(sliding);
+        tempIdleTentacle.SetActive(!sliding);
 
     }
 
