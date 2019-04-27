@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject tempIdleTentacle;
     public GameObject tempSlideTentacle;
+    public Animator animator;
+    public Transform raypoint;
+    public Transform whippoint;
 
 
     [SerializeField] private float JumpForce = 400f;
@@ -14,8 +17,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float WallSlideMult = 1.0f;
 
     [Range(0, .3f)] [SerializeField] private float MovementSmoothing = .05f;  
-    [SerializeField] private bool AirControl = true;                         
-    [SerializeField] private LayerMask WhatIsGround;                         
+    [SerializeField] private bool AirControl = true;
+
+
+    [SerializeField] private LayerMask WhatIsWhippable;
+    [SerializeField] private LayerMask WhatIsFreezable;
+    [SerializeField] private LayerMask WhatIsFlamable;
+
+
+    [SerializeField] private LayerMask WhatIsGround;
+
+
     [SerializeField] private Transform GroundCheck;
     [SerializeField] private Transform GrabWallCheck;
     [SerializeField] private Transform WallKickCheck;
@@ -32,6 +44,11 @@ public class PlayerController : MonoBehaviour
     private float timeBetweenWallParticle = 0.25f;
     private float timeSinceLastWallParticle = 0.0f;
 
+
+    private float recentlyWhipped = 0.0f;
+    [SerializeField] private float timeBetweenWhips = 0.15f;
+    [SerializeField] private float timeUntilNextWhip = 0.0f;
+    public Collider2D whipCollider;
 
     private Rigidbody2D rb2d;
     private bool FacingRight = true; 
@@ -141,6 +158,13 @@ public class PlayerController : MonoBehaviour
         {
             timeSinceLastWallParticle = 0;
         }
+
+        timeUntilNextWhip -= Time.deltaTime;
+        if (timeUntilNextWhip <= 0)
+        {
+            timeUntilNextWhip = 0;
+        }
+
     }
 
 
@@ -234,6 +258,54 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void Attack(int attackType)
+    {
+        Transform origin = raypoint;
+        if (attackType == 1) origin = whippoint;
+        int facing = 1;
+        facing = (FacingRight) ? 1 : -1;
+
+        RaycastHit2D hit;
+
+
+        switch (attackType)
+        {
+            case 1:
+                Debug.Log("Whip Attack");
+                bool whipped = TryToWhip();
+                hit = Physics2D.Raycast(origin.position, facing*transform.right, 2, WhatIsWhippable);
+                Debug.DrawRay(origin.position, facing * transform.right, Color.red);
+                if(hit.collider != null)
+                {
+                    Debug.Log("Slapped a " + hit.collider.name);
+                }
+                break;
+            case 2:
+                Debug.Log("Shooting Frost");
+                //bool whipped = TryToWhip();
+                hit = Physics2D.Raycast(origin.position, facing * transform.right, 4, WhatIsFreezable);
+                Debug.DrawRay(origin.position, facing * transform.right, Color.blue);
+                if (hit.collider != null)
+                {
+                    Debug.Log("Froze a " + hit.collider.name);
+                }
+
+                break;
+            case 3:
+                Debug.Log("Shooting Fire");
+                hit = Physics2D.Raycast(origin.position, facing * transform.right, 3, WhatIsFlamable);
+                Debug.DrawRay(origin.position, facing*transform.right, Color.yellow);
+                if (hit.collider != null)
+                {
+                    Debug.Log("Burnt a " + hit.collider.name);
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
 
     private void Flip()
     {
@@ -251,12 +323,14 @@ public class PlayerController : MonoBehaviour
             rb2d.gravityScale = GravityScaleSlow; //grabbing the wall
             recentlyWallSlid = timeBetweenJumps;
             SpawnWallSlideParticles();
-            
+            animator.SetBool("IsSliding", true);
+
         } else
         {
             rb2d.gravityScale = GravityScaleNormal; //not grabbing anything
+            animator.SetBool("IsSliding", false);
         }
-        TentacleSwapTemp(sliding);
+        //TentacleSwapTemp(sliding);
     }
 
     private bool checkJumpLogic(bool jump)
@@ -364,6 +438,23 @@ public class PlayerController : MonoBehaviour
             timeSinceLastWallParticle = timeBetweenWallParticle;
         }
     }
+
+    private bool TryToWhip()
+    {
+        if (timeUntilNextWhip <= 0) //enough time has elapsed
+        {
+            animator.Play("Alien_Whip");
+            timeUntilNextWhip = timeBetweenWhips;
+            //cast a ray and detect the hit
+
+
+
+
+            return true;
+        }
+        return false;
+    }
+
 
     private void TentacleSwapTemp(bool sliding)
     {
