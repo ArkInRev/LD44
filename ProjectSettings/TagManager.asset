@@ -9,6 +9,8 @@ TagManager:
   - Lifeform
   - Pickup
   - Iceblock
+  - Destructible
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - Player
   - Ground
   - OneWay
-  - 
-  - 
+  - Things
+  - Projectiles
   - 
   - 
   - 

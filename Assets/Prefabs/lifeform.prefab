@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1892442065418848379}
   - component: {fileID: 4201976437523442554}
   - component: {fileID: 1042943270262428080}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lifeform
   m_TagString: Lifeform
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4754080593051522713}
   - component: {fileID: 2919999200794445389}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5479953841424311902}
   - component: {fileID: 4458973993500911977}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

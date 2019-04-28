@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3337709896317908552}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EdgeCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3323605440084171658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.396, y: 0, z: 0}
+  m_LocalPosition: {x: 0.638, y: -0.325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2429384912723955738}
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5615421401939169835}
   - component: {fileID: 8560565989784206956}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7235135686832945693}
   - component: {fileID: 4417199807625877974}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 7833002453488880565}
   - component: {fileID: 4899706479199453937}
   - component: {fileID: 1854797685342588222}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: sawbot
   m_TagString: Robot
   m_Icon: {fileID: 0}
@@ -313,6 +313,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02fe8dee325182f4582b58ff39801c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pat: {fileID: 1854797685342588222}
+  timeUntilNextShot: 0.75
+  sawblade: {fileID: 7515965137558229231, guid: 746590ab6ebfd834bb6281ccf6915031,
+    type: 3}
+  ProjecTilemap: {fileID: 0}
 --- !u!114 &1854797685342588222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,8 +331,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   edgeDetect: {fileID: 3337709896317908552}
-  speed: 5
+  speed: 0.75
   facingRight: 1
   lm:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 1536
+  shootAt:
+    serializedVersion: 2
+    m_Bits: 3840
+  hitGround: 0

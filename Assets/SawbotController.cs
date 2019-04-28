@@ -2,51 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SawbotController : MonoBehaviour
 {
-    public static int health = 3;
-    private int healthLeft = health;
-    ///public Tilemap myTilemap;
-    ///
-
-    
-
-    //public SpriteRenderer sr;
-
-    //   [Header("Damage Colors")]
-    //   public Color startColor = Color.white;
-    //  public Color endColor = Color.red;
-
-    //   Gradient gradient;
-    //   GradientColorKey[] colorKey;
-    //   GradientAlphaKey[] alphaKey;
-
+    [SerializeField] public int health = 8;
+    private int healthLeft = 3;
+    public PatrolAI pat;
+    [SerializeField] public float timeBetweenShots = 1.5f;
+    public float timeUntilNextShot = 1.5f;
+    public GameObject sawblade;
+    public Transform ProjecTilemap;
 
     public void Awake()
     {
-        //myTilemap = GameObject.Find("Terrain").GetComponent<Tilemap>();
-
+        ProjecTilemap = GameObject.Find("ProjectileTilemap").transform;
+        timeUntilNextShot = timeBetweenShots;
+        healthLeft = health;
     }
 
     public void Start()
     {
-        /* colorKey = new GradientColorKey[2];
-         colorKey[0].color = startColor;
-         colorKey[0].time = 0.0f;
-         colorKey[1].color = endColor;
-         colorKey[1].time = 1.0f;
 
-         alphaKey = new GradientAlphaKey[2];
-         alphaKey[0].alpha = 1.0f;
-         alphaKey[0].time = 0.0f;
-         alphaKey[1].alpha = 0.0f;
-         alphaKey[1].time = 1.0f;
-
-         gradient.SetKeys(colorKey, alphaKey);*/
     }
 
-    // Destroy(this.gameObject);
 
+    private void FixedUpdate()
+    {
+        timeUntilNextShot -= Time.deltaTime;
+        ShootCheck();  
+        
+    }
 
     public void HitWithWhip()
     {
@@ -67,4 +52,22 @@ public class SawbotController : MonoBehaviour
 
 
     }
+
+    private void ShootCheck()
+    {
+        if (timeUntilNextShot <= 0)
+        {
+            timeUntilNextShot = 0;
+            if (pat.HasTarget())
+            {
+                GameObject go = Instantiate(sawblade, transform.position, transform.rotation) as GameObject;
+                timeUntilNextShot = timeBetweenShots;
+                go.transform.SetParent(ProjecTilemap);
+                Destroy(go, 4);
+            }
+        }
+    }
+
+    
+
 }

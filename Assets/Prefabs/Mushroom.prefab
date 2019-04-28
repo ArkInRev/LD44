@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4453076039323559586}
   - component: {fileID: 948368240448172865}
   - component: {fileID: 1333295024951895973}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mushroom
   m_TagString: Plant
   m_Icon: {fileID: 0}
@@ -146,6 +146,7 @@ MonoBehaviour:
   IceBlockVersion: {fileID: 5414428329350930378, guid: b870f49e043f0204c8a1fc69a16cc5b8,
     type: 3}
   c2d: {fileID: 948368240448172865}
+  myTilemap: {fileID: 0}
 --- !u!1 &8925114813650728489
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7234238052154760525}
   - component: {fileID: 2273742176471630480}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
