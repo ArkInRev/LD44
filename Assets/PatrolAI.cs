@@ -22,7 +22,7 @@ public class PatrolAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector2 facing;
         facing = (facingRight) ? transform.right : -transform.right;
@@ -83,16 +83,16 @@ public class PatrolAI : MonoBehaviour
 
             if (hit.collider.CompareTag("Plant") )
             {
-                Debug.Log("robot sees a plant;");
+                //Debug.Log("robot sees a plant;");
                 moving = false;
             }
             else if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Robot sees a player.");
+                //Debug.Log("Robot sees a player.");
                 moving = false;
             } else if (hit.collider.CompareTag("Lifeform"))
             {
-                Debug.Log("robot sees a lifeform;");
+                //Debug.Log("robot sees a lifeform;");
                 moving = false;
             } else
             {
@@ -115,12 +115,6 @@ public class PatrolAI : MonoBehaviour
             Flip();
             //Debug.Log("hit an iceblock");
         }
-    }
-
-    private void FixedUpdate()
-    {
-
-
     }
 
     private void Flip()

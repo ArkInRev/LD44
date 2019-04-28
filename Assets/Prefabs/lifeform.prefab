@@ -138,6 +138,7 @@ MonoBehaviour:
     type: 3}
   c2d: {fileID: 4201976437523442554}
   myTilemap: {fileID: 0}
+  healthInHits: 5
 --- !u!1 &5107955384677988833
 GameObject:
   m_ObjectHideFlags: 0

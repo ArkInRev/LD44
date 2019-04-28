@@ -309,6 +309,21 @@ public class PlayerController : MonoBehaviour
                         //you hit a robot, so add time.delta time to the freeze of that plant. if it freezes long enough, it should iceblock. 
                         hit.collider.GetComponent<SawbotController>().HitWithWhip();
                     }
+                    if (hit.collider.CompareTag("Iceblock"))
+                    {
+                        //you hit an iceblock. Slap a label on it and initiate shipment.  
+                        hit.collider.GetComponent<IceblockControl>().ShipThis();
+                    }
+                    if (hit.collider.CompareTag("Plant"))
+                    {
+                        //you hit an iceblock. Slap a label on it and initiate shipment.  
+                        hit.collider.GetComponent<MushroomInteract>().HitThis();
+                    }
+                    if (hit.collider.CompareTag("Lifeform"))
+                    {
+                        //you hit an iceblock. Slap a label on it and initiate shipment.  
+                        hit.collider.GetComponent<MushroomInteract>().HitThis();
+                    }
                 }
                 lr.SetPosition(1, targetpoint);
                 lr.enabled = false;

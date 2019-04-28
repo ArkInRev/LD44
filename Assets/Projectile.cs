@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-
+    public float destroyDelay = 0.1f;
     public float speed;
+    public float damageInSeconds = 30;
+    public float damageInHits = 1;
+
+    public GameController gc;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        gc = GameObject.Find("GameManager").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -32,4 +37,40 @@ public class Projectile : MonoBehaviour
             transform.Translate(dir *speed * Time.deltaTime);
         //}
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Iceblock")
+        {
+            Destroy(this.gameObject,destroyDelay);
+            
+        }
+        if (collision.gameObject.tag == "Destructible")
+        {
+            Destroy(this.gameObject, destroyDelay);
+
+        }
+        if (collision.gameObject.tag == "Player")
+        {
+            gc.ReduceTimer(damageInSeconds);
+            Destroy(this.gameObject, destroyDelay);
+
+        }
+        if (collision.gameObject.tag == "Plant")
+        {
+            //gc.ReduceTimer(damageInSeconds);
+            collision.GetComponent<MushroomInteract>().HitThis();
+            Destroy(this.gameObject, destroyDelay);
+
+        }
+        if (collision.gameObject.tag == "Lifeform")
+        {
+            //gc.ReduceTimer(damageInSeconds);
+            collision.GetComponent<MushroomInteract>().HitThis();
+            Destroy(this.gameObject, destroyDelay);
+
+        }
+
+    }
+
 }

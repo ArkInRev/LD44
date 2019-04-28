@@ -25,8 +25,8 @@ public class Iceblocker : MonoBehaviour
         }
         
 
-        Debug.Log("Got the message and instantiating. "+spawnThis.name+" "+here.position);
+        //Debug.Log("Got the message and instantiating. "+spawnThis.name+" "+here.position);
         GameObject go = Instantiate(spawnThis, here) as GameObject;
-        Debug.Log("Instantiated: " + spawnThis.name + " " + here.position+", now what?");
+        //Debug.Log("Instantiated: " + spawnThis.name + " " + here.position+", now what?");
     }
 }

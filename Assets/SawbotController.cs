@@ -60,7 +60,7 @@ public class SawbotController : MonoBehaviour
             timeUntilNextShot = 0;
             if (pat.HasTarget())
             {
-                GameObject go = Instantiate(sawblade, transform.position, transform.rotation) as GameObject;
+                GameObject go = Instantiate(sawblade, transform) as GameObject;
                 timeUntilNextShot = timeBetweenShots;
                 go.transform.SetParent(ProjecTilemap);
                 Destroy(go, 4);

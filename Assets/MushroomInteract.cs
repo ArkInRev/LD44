@@ -11,6 +11,7 @@ public class MushroomInteract : MonoBehaviour
     Rigidbody2D rb2d;
     public Collider2D c2d;
     public Transform myTilemap;
+    public int healthInHits = 2;
     //private IEnumerator coroutine;
 
 
@@ -51,6 +52,15 @@ public class MushroomInteract : MonoBehaviour
         go.transform.SetParent(myTilemap);
         Destroy(this.gameObject);
 
+    }
+
+    public void HitThis()
+    {
+        healthInHits -= 1;
+        if (healthInHits <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 }
