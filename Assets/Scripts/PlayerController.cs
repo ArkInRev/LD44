@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private float timeBetweenWallParticle = 0.25f;
     private float timeSinceLastWallParticle = 0.0f;
 
+    private float timeBetweenImpactParticle = 0.15f;
+    private float timeUntilNextImpactParticle = 0.0f;
+
 
     private float recentlyWhipped = 0.0f;
     [SerializeField] private float timeBetweenWhips = 0.15f;
@@ -55,7 +58,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 Velocity = Vector3.zero;
     public GameObject light; //keep this from flipping. 
     public float lightHeight = -0.5f;
+
     public ParticleSystem jumpParticles;
+    //public ParticleSystem slapParticles;
+    public ParticleSystem freezeParticles;
+    public ParticleSystem burnParticles;
 
 
     //jump logic
@@ -165,6 +172,11 @@ public class PlayerController : MonoBehaviour
             timeUntilNextWhip = 0;
         }
 
+        timeUntilNextImpactParticle -= Time.deltaTime;
+        if (timeUntilNextImpactParticle <= 0)
+        {
+            timeUntilNextImpactParticle = 0;
+        }
     }
 
 
@@ -262,8 +274,9 @@ public class PlayerController : MonoBehaviour
     {
         Transform origin = raypoint;
         if (attackType == 1) origin = whippoint;
-        int facing = 1;
-        facing = (FacingRight) ? 1 : -1;
+        Vector3 facing;
+        facing = (FacingRight) ? transform.right : transform.right;
+        
 
         RaycastHit2D hit;
 
@@ -273,37 +286,43 @@ public class PlayerController : MonoBehaviour
             case 1:
                 Debug.Log("Whip Attack");
                 bool whipped = TryToWhip();
-                hit = Physics2D.Raycast(origin.position, facing*transform.right, 2, WhatIsWhippable);
-                Debug.DrawRay(origin.position, facing * transform.right, Color.red);
+                hit = Physics2D.Raycast(origin.position, facing, 2, WhatIsWhippable);
+                Debug.DrawRay(origin.position, facing, Color.red);
                 if(hit.collider != null)
                 {
                     Debug.Log("Slapped a " + hit.collider.name);
+                    ImpactEffect(attackType, hit.point);
                 }
+                
                 break;
             case 2:
                 Debug.Log("Shooting Frost");
                 //bool whipped = TryToWhip();
-                hit = Physics2D.Raycast(origin.position, facing * transform.right, 4, WhatIsFreezable);
-                Debug.DrawRay(origin.position, facing * transform.right, Color.blue);
+                hit = Physics2D.Raycast(origin.position, facing, 4, WhatIsFreezable);
+                Debug.DrawRay(origin.position, facing, Color.blue);
                 if (hit.collider != null)
                 {
                     Debug.Log("Froze a " + hit.collider.name);
+                    ImpactEffect(attackType, hit.point);
                 }
 
                 break;
             case 3:
                 Debug.Log("Shooting Fire");
-                hit = Physics2D.Raycast(origin.position, facing * transform.right, 3, WhatIsFlamable);
-                Debug.DrawRay(origin.position, facing*transform.right, Color.yellow);
+                hit = Physics2D.Raycast(origin.position, facing, 3, WhatIsFlamable);
+                Debug.DrawRay(origin.position, facing, Color.yellow);
                 if (hit.collider != null)
                 {
                     Debug.Log("Burnt a " + hit.collider.name);
+                    ImpactEffect(attackType, hit.point);
                 }
 
                 break;
             default:
                 break;
         }
+
+        
     }
 
 
@@ -332,6 +351,8 @@ public class PlayerController : MonoBehaviour
         }
         //TentacleSwapTemp(sliding);
     }
+
+
 
     private bool checkJumpLogic(bool jump)
     {
@@ -438,6 +459,32 @@ public class PlayerController : MonoBehaviour
             timeSinceLastWallParticle = timeBetweenWallParticle;
         }
     }
+
+    private void ImpactEffect(int type,Vector2 point)
+    {
+        ParticleSystem particles;
+        switch (type)
+        {
+            case 2:
+                particles = freezeParticles;
+                break;
+            case 3:
+                particles = burnParticles;
+                break;
+            default:
+                particles = jumpParticles;
+                break;
+        }
+
+        if (timeUntilNextImpactParticle <= 0)
+        {
+            
+
+            Instantiate(particles, new Vector3(point.x, point.y,0),Quaternion.identity);
+            timeUntilNextImpactParticle = timeBetweenImpactParticle;
+        }
+    }
+
 
     private bool TryToWhip()
     {
