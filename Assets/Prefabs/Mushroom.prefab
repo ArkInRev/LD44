@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5999085696897838665}
   - component: {fileID: 4453076039323559586}
   - component: {fileID: 948368240448172865}
+  - component: {fileID: 1333295024951895973}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Plant
@@ -129,6 +130,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.79631066, y: 0.8811811}
   m_EdgeRadius: 0
+--- !u!114 &1333295024951895973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016501604038818539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66ff5f330bca2e4e967904a9a652837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToFreeze: 1.5
+  IceBlockVersion: {fileID: 5414428329350930378, guid: b870f49e043f0204c8a1fc69a16cc5b8,
+    type: 3}
+  c2d: {fileID: 948368240448172865}
 --- !u!1 &8925114813650728489
 GameObject:
   m_ObjectHideFlags: 0

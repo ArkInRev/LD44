@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3323605440084171658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3337709896317908552}
+  m_Layer: 0
+  m_Name: EdgeCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3337709896317908552
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323605440084171658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.396, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2429384912723955738}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3996086633749409643
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +180,8 @@ GameObject:
   - component: {fileID: 5503718741748304977}
   - component: {fileID: 7710764294148144403}
   - component: {fileID: 7833002453488880565}
+  - component: {fileID: 4899706479199453937}
+  - component: {fileID: 1854797685342588222}
   m_Layer: 0
   m_Name: sawbot
   m_TagString: Robot
@@ -170,6 +202,7 @@ Transform:
   m_Children:
   - {fileID: 5615421401939169835}
   - {fileID: 7235135686832945693}
+  - {fileID: 3337709896317908552}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -268,3 +301,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.724465, y: 0.7730894}
   m_EdgeRadius: 0
+--- !u!114 &4899706479199453937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791259757528519615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02fe8dee325182f4582b58ff39801c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1854797685342588222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791259757528519615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa638998c73bde44a49aac91b85bb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgeDetect: {fileID: 3337709896317908552}
+  speed: 5
+  facingRight: 1
+  lm:
+    serializedVersion: 2
+    m_Bits: 1537

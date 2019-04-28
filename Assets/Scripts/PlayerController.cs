@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Transform raypoint;
     public Transform whippoint;
+    public LineRenderer lr;
 
 
     [SerializeField] private float JumpForce = 400f;
@@ -77,7 +78,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isFalling = false; // jumping and has a negative vertical velocity. 
     [SerializeField] private bool beginLanding = false;// was jumping and a grounded check detected ground. 
 
-
+    [Header("Laser Colors")]
+    [Space]
+    public Color frostStart = Color.blue;
+    public Color frostEnd = Color.blue;
+    public Color fireStart = Color.yellow;
+    public Color fireEnd = Color.red;
+    //Gradient gradient;
+    //GradientColorKey[] colorKey;
+    //GradientAlphaKey[] alphaKey;
 
     [Header("Events")]
     [Space]
@@ -276,7 +285,9 @@ public class PlayerController : MonoBehaviour
         if (attackType == 1) origin = whippoint;
         Vector3 facing;
         facing = (FacingRight) ? transform.right : transform.right;
-        
+        lr.SetPosition(0, origin.position);
+
+        Vector3 targetpoint = origin.position;
 
         RaycastHit2D hit;
 
@@ -292,11 +303,21 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.Log("Slapped a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
+
+                    if (hit.collider.CompareTag("Robot"))
+                    {
+                        //you hit a robot, so add time.delta time to the freeze of that plant. if it freezes long enough, it should iceblock. 
+                        hit.collider.GetComponent<SawbotController>().HitWithWhip();
+                    }
                 }
-                
+                lr.SetPosition(1, targetpoint);
+                lr.enabled = false;
                 break;
+                
             case 2:
                 Debug.Log("Shooting Frost");
+                lr.startColor = frostStart;
+                lr.endColor = frostEnd;
                 //bool whipped = TryToWhip();
                 hit = Physics2D.Raycast(origin.position, facing, 4, WhatIsFreezable);
                 Debug.DrawRay(origin.position, facing, Color.blue);
@@ -304,21 +325,59 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.Log("Froze a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
-                }
+                    targetpoint = hit.point;
 
+                    //what did I hit?
+                    // HitWithFrozenRay(float t)
+                    if (hit.collider.CompareTag("Plant"))
+                    {
+                        //you hit a plant, so add time.delta time to the freeze of that plant. if it freezes long enough, it should iceblock. 
+                        hit.collider.GetComponent<MushroomInteract>().HitWithFrozenRay(Time.deltaTime);
+                    }
+
+                    if (hit.collider.CompareTag("Lifeform"))
+                    {
+                        //you hit a lifeform, so add time.delta time to the freeze of that lifeform. if it freezes long enough, it should iceblock. 
+                        hit.collider.GetComponent<MushroomInteract>().HitWithFrozenRay(Time.deltaTime);
+                    }
+                }
+                else
+                {
+                    targetpoint = facing * 4 + origin.position;
+                }
+                lr.SetPosition(1, targetpoint);
+                lr.enabled = true;
                 break;
             case 3:
                 Debug.Log("Shooting Fire");
+                lr.startColor = fireStart;
+                lr.endColor = fireEnd;
                 hit = Physics2D.Raycast(origin.position, facing, 3, WhatIsFlamable);
                 Debug.DrawRay(origin.position, facing, Color.yellow);
                 if (hit.collider != null)
                 {
                     Debug.Log("Burnt a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
-                }
+                    targetpoint = hit.point;
 
+                    if (hit.collider.CompareTag("Destructible"))
+                    {
+                        //you hit a plant, so add time.delta time to the freeze of that plant. if it freezes long enough, it should iceblock. 
+                        hit.collider.GetComponent<DestructibleTiles>().HitWithFireRay(Time.deltaTime);
+                    }
+
+
+
+                }
+                else
+                {
+                    targetpoint = facing * 3 + origin.position;
+                }
+                lr.SetPosition(1, targetpoint);
+                lr.enabled = true;
                 break;
             default:
+                lr.enabled = false;
                 break;
         }
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5808855678116905443}
   - component: {fileID: 1892442065418848379}
   - component: {fileID: 4201976437523442554}
+  - component: {fileID: 1042943270262428080}
   m_Layer: 0
   m_Name: lifeform
   m_TagString: Lifeform
@@ -120,6 +121,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.0556916}
   serializedVersion: 2
   m_Radius: 0.37933457
+--- !u!114 &1042943270262428080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4745167943834590197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66ff5f330bca2e4e967904a9a652837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToFreeze: 3
+  IceBlockVersion: {fileID: 6970348054429467416, guid: 90634580fe518a241bba77df2bd87c70,
+    type: 3}
+  c2d: {fileID: 4201976437523442554}
+  myTilemap: {fileID: 0}
 --- !u!1 &5107955384677988833
 GameObject:
   m_ObjectHideFlags: 0
