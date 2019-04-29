@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
     public Slider timeSlider;
 
     [Header("Enemy Spawning")]
+    public int spawnEnityLimit = 256;
     public Transform myTilemap;
     public Tilemap terrainTilemap;
     public Transform playertransform;
@@ -261,38 +262,50 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void TryToSpawn(ref Vector2 posToSpawn)
+    public int GetGameState()   /// ADDED POST COMPO - Needed to return game state to movement to prevent jump after unpause. 
     {
-        Vector2 playerPos = new Vector2(playertransform.position.x,playertransform.position.y);
-        Vector2 randPos = (playerPos+ Random.insideUnitCircle*spawnMaxRange);
-        posToSpawn = randPos;
-        float dist = Vector2.Distance(playerPos,randPos);
+        return thisGame;
+    }
 
-        //Debug.Log("Trying to Spawn Dist: "+dist.ToString()+" @"+posToSpawn.ToString());
-        if (dist > safeRange)
+
+    private void TryToSpawn(ref Vector2 posToSpawn) 
+    {
+        int gco = myTilemap.childCount;
+
+        if (gco <= spawnEnityLimit)  /// ADDED POST COMPO - Check to cap number of spawned entities. The game can grind to a halt and has crashed if spawning is endless
         {
-            Vector3Int tilePos = terrainTilemap.WorldToCell(new Vector3(posToSpawn.x, posToSpawn.y, 0));
-            TileBase thisTile = terrainTilemap.GetTile(tilePos);
+            Vector2 playerPos = new Vector2(playertransform.position.x, playertransform.position.y);
+            Vector2 randPos = (playerPos + Random.insideUnitCircle * spawnMaxRange);
+            posToSpawn = randPos;
+            float dist = Vector2.Distance(playerPos, randPos);
 
-            if (thisTile != null)
+            //Debug.Log("Trying to Spawn Dist: "+dist.ToString()+" @"+posToSpawn.ToString());
+            if (dist > safeRange)
             {
-                //something was there, cancel spawn
-                Debug.Log("Tile hit: " + thisTile.name);
-            }
-            else
-            {
-                Debug.Log("Spawning: Nothing was here");
-                //actually spawn something
-                //0 robot 1 lifeform
-                int thingIndex = Random.Range(0, 2);
-                GameObject thing = spawnables[thingIndex];
+                Vector3Int tilePos = terrainTilemap.WorldToCell(new Vector3(posToSpawn.x, posToSpawn.y, 0));
+                TileBase thisTile = terrainTilemap.GetTile(tilePos);
 
-                GameObject go = Instantiate(thing, randPos, Quaternion.identity) as GameObject;
-                go.transform.SetParent(myTilemap);
-                timeUntilNextSpawn = timeBetweenSpawn;
-            }
+                if (thisTile != null)
+                {
+                    //something was there, cancel spawn
+                    Debug.Log("Tile hit: " + thisTile.name);
+                }
+                else
+                {
+                    Debug.Log("Spawning: Nothing was here");
+                    //actually spawn something
+                    //0 robot 1 lifeform
+                    int thingIndex = Random.Range(0, 2);
+                    GameObject thing = spawnables[thingIndex];
 
+                    GameObject go = Instantiate(thing, randPos, Quaternion.identity) as GameObject;
+                    go.transform.SetParent(myTilemap);
+                    timeUntilNextSpawn = timeBetweenSpawn;
+                }
+
+            }
         }
+
 
 
     }

@@ -39,6 +39,11 @@ public class IceblockControl : MonoBehaviour
         anim.SetBool("ShipMe", true);
         ps.Play();
         // change to background layer
+
+
+        this.gameObject.tag = "Pickup";    /// ADDED POST COMPO - Changing the iceblock tag to prevent an unintended spammable score. 
+
+
         //this.gameObject.layer = 2;
         // remove any colliders
         //col.enabled = false;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     // Manage the movement states and animations to keep them in sync
-
+    public GameController gc;  // ADDED POST COMPO - Needed to get pause state to prevent jump after unpause. 
     public PlayerController controller;
     public float runSpeed = 40f;
     float horizontalMove = 0f;
@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         animator = this.gameObject.GetComponent<Animator>();
+        gc = GameObject.Find("GameManager").GetComponent<GameController>(); // ADDED POST COMPO - Needed to get pause state to prevent jump after unpause. 
     }
 
 
@@ -39,7 +40,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            jump = true;
+            if(gc.GetGameState()==2) // ADDED POST COMPO - Needed to get pause state to prevent jump after unpause. 
+            {
+                jump = true; 
+            }
+                
         }
 
         if (Input.GetButtonDown("Fire1"))
