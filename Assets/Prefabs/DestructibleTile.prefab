@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToBreak: 3
   myTilemap: {fileID: 0}
+  gooTilemap: {fileID: 0}
+  meltRed: {r: 1, g: 0.34757438, b: 0, a: 1}
 --- !u!61 &1034543690132121501
 BoxCollider2D:
   m_ObjectHideFlags: 0

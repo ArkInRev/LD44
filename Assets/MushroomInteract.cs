@@ -13,13 +13,14 @@ public class MushroomInteract : MonoBehaviour
     public Transform myTilemap;
     public int healthInHits = 2;
     //private IEnumerator coroutine;
-
+    private SpriteRenderer sr;
+    public Color frozenBlue;
 
     public void Awake()
     {
         rb2d = this.GetComponent<Rigidbody2D>();
         myTilemap=  GameObject.Find("Others").transform;
-
+        sr = this.GetComponent<SpriteRenderer>();
     }
 
            // Destroy(this.gameObject);
@@ -28,6 +29,8 @@ public class MushroomInteract : MonoBehaviour
     public void HitWithFrozenRay(float t)
     {
         timeFrozenRay += t;
+        freezeSpriteColor(timeFrozenRay / timeToFreeze);
+       
         if (timeFrozenRay > timeToFreeze)
         {
             IceblockThis();
@@ -61,6 +64,13 @@ public class MushroomInteract : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void freezeSpriteColor(float t)
+    {
+        Color lerpedColor = Color.Lerp(Color.white, frozenBlue, t);
+        sr.color = lerpedColor;
+
     }
 
 }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4228398397463473915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4352746303970049448}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4352746303970049448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228398397463473915}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.401, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6363152759878832262}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4745167943834590197
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,6 +43,7 @@ GameObject:
   - component: {fileID: 1892442065418848379}
   - component: {fileID: 4201976437523442554}
   - component: {fileID: 1042943270262428080}
+  - component: {fileID: 2252413232288517994}
   m_Layer: 11
   m_Name: lifeform
   m_TagString: Lifeform
@@ -33,6 +64,7 @@ Transform:
   m_Children:
   - {fileID: 4754080593051522713}
   - {fileID: 5479953841424311902}
+  - {fileID: 4352746303970049448}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -139,6 +171,32 @@ MonoBehaviour:
   c2d: {fileID: 4201976437523442554}
   myTilemap: {fileID: 0}
   healthInHits: 5
+  frozenBlue: {r: 0.4481132, g: 0.86481225, b: 1, a: 1}
+--- !u!114 &2252413232288517994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4745167943834590197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad1fdca17731e846a5341fb1cb6bc9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomDir: 1
+  jumpForce: 300
+  forwardForce: 150
+  groundCheck: {fileID: 4352746303970049448}
+  lm:
+    serializedVersion: 2
+    m_Bits: 1536
+  isGrounded: 1
+  timeBetweenBounce: 3
+  timeUntilNextBounce: 3
+  jumpOffset: 2
+  facingRight: 0
+  hitGround: 1
 --- !u!1 &5107955384677988833
 GameObject:
   m_ObjectHideFlags: 0

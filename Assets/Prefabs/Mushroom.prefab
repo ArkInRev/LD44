@@ -147,6 +147,8 @@ MonoBehaviour:
     type: 3}
   c2d: {fileID: 948368240448172865}
   myTilemap: {fileID: 0}
+  healthInHits: 2
+  frozenBlue: {r: 0.5707547, g: 0.8674504, b: 1, a: 1}
 --- !u!1 &8925114813650728489
 GameObject:
   m_ObjectHideFlags: 0
