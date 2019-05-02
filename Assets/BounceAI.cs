@@ -10,6 +10,7 @@ public class BounceAI : MonoBehaviour
 
     public Transform groundCheck;
     public LayerMask lm;
+    private Renderer r;
 
     private Rigidbody2D rb2d;
 
@@ -26,6 +27,7 @@ public class BounceAI : MonoBehaviour
     {
         timeUntilNextBounce = timeBetweenBounce + (Random.Range(0,jumpOffset+1)-(jumpOffset/2));
         rb2d = GetComponent<Rigidbody2D>();
+        r = GetComponent<SpriteRenderer>();
     }
 
     public void FixedUpdate()
@@ -33,8 +35,12 @@ public class BounceAI : MonoBehaviour
 
         // Vector2 facing;
         // facing = (facingRight) ? transform.right : -transform.right;
-        isGrounded = GroundedCheck();
-        JumpLogic();
+        if (r.isVisible)
+        {
+            isGrounded = GroundedCheck();
+            JumpLogic();
+        }
+        
 
     }
 

@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
             } else if (IsWallKickable() && recentlyWallSlid>0){
                 WallSliding = false;
                 rb2d.AddForce(new Vector2(move*WallKickForce, WallSlideMult*JumpForce));
-                Debug.Log("Move: " + move.ToString() + " Force: " + (move * WallKickForce).ToString());
+                //Debug.Log("Move: " + move.ToString() + " Force: " + (move * WallKickForce).ToString());
                 ParticleSystem dustInstance = Instantiate(jumpParticles, WallKickCheck);
             }
             
@@ -295,13 +295,13 @@ public class PlayerController : MonoBehaviour
         switch (attackType)
         {
             case 1:
-                Debug.Log("Whip Attack");
+               // Debug.Log("Whip Attack");
                 bool whipped = TryToWhip();
                 hit = Physics2D.Raycast(origin.position, facing, 2, WhatIsWhippable);
                 Debug.DrawRay(origin.position, facing, Color.red);
                 if(hit.collider != null)
                 {
-                    Debug.Log("Slapped a " + hit.collider.name);
+                   // Debug.Log("Slapped a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
 
                     if (hit.collider.CompareTag("Robot"))
@@ -330,7 +330,7 @@ public class PlayerController : MonoBehaviour
                 break;
                 
             case 2:
-                Debug.Log("Shooting Frost");
+                //Debug.Log("Shooting Frost");
                 lr.startColor = frostStart;
                 lr.endColor = frostEnd;
                 //bool whipped = TryToWhip();
@@ -338,7 +338,7 @@ public class PlayerController : MonoBehaviour
                 Debug.DrawRay(origin.position, facing, Color.blue);
                 if (hit.collider != null)
                 {
-                    Debug.Log("Froze a " + hit.collider.name);
+                    //Debug.Log("Froze a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
                     targetpoint = hit.point;
 
@@ -364,14 +364,14 @@ public class PlayerController : MonoBehaviour
                 lr.enabled = true;
                 break;
             case 3:
-                Debug.Log("Shooting Fire");
+                //Debug.Log("Shooting Fire");
                 lr.startColor = fireStart;
                 lr.endColor = fireEnd;
                 hit = Physics2D.Raycast(origin.position, facing, 3, WhatIsFlamable);
                 Debug.DrawRay(origin.position, facing, Color.yellow);
                 if (hit.collider != null)
                 {
-                    Debug.Log("Burnt a " + hit.collider.name);
+                    //Debug.Log("Burnt a " + hit.collider.name);
                     ImpactEffect(attackType, hit.point);
                     targetpoint = hit.point;
 

@@ -288,7 +288,7 @@ public class GameController : MonoBehaviour
                 if (thisTile != null)
                 {
                     //something was there, cancel spawn
-                    Debug.Log("Tile hit: " + thisTile.name);
+                   // Debug.Log("Tile hit: " + thisTile.name);
                 }
                 else
                 {
